@@ -1,0 +1,284 @@
+package dk.dtu.cdio2;
+
+import gui_fields.GUI_Car;
+import gui_fields.GUI_Field;
+import gui_fields.GUI_Player;
+import gui_fields.GUI_Street;
+import gui_main.GUI;
+import java.awt.*;
+
+/**
+ * The GUIManager class, for managing the GUI. The
+ * GUIManager is a constructor which initializes a
+ * single instance of the dtudiplom GUI interface.
+ *
+ * Note: Based on https://github.com/DTUSoftware/25_del1/blob/master/src/main/java/dk/dtu/spil/GUIManager.java
+ *
+ * @author      DTUSoftware, Gruppe 25
+ * @version     %I%, %G%
+ * @since       v0.0.2
+ */
+public class GUIManager {
+    private GUI gui;
+
+    /**
+     * The GUIManager constructor initializes the GUI instance, and
+     * create a new instance of the dtudiplom GUI.
+     */
+    public GUIManager() {
+        GUI_Field[] fields = initializeFields();
+
+        gui = new GUI(fields, Color.decode("0x"+"3E6990"));
+
+        gui.setDice(6, 6);
+    }
+
+    /**
+     * A Field object, which can have a name and a reward, including
+     * other things.
+     *
+     * In the future, there is also supposed to be things like Field actions,
+     * to for example control custom stuff for special fields by extending the
+     * class.
+     */
+    private class Field {
+        private GUI_Street  guiStreet;
+        private String      landingText;
+        private Integer     reward;
+
+        /**
+         * The constructor for creating a new Field.
+         *
+         * @param name          The name of the field.
+         * @param description   The field description, shown on board.
+         * @param landingText   The text to show when the player lands on the field.
+         * @param reward        The reward - can be both negative and positive.
+         */
+        Field(String name, String description, String landingText, Integer reward) {
+            this.reward = reward;
+            this.landingText = landingText;
+
+            this.guiStreet = new GUI_Street();
+            this.guiStreet.setTitle(name);
+            this.guiStreet.setSubText(description + " - Reward: " + reward.toString());
+        }
+
+        public void doLandingAction(PlayerManager.Player player, int faceValue1, int faceValue2) {
+            showMessage(this.landingText);
+            player.withdraw(this.reward);
+        }
+
+        public GUI_Street getGUIStreet() {
+            return this.guiStreet;
+        }
+    }
+
+    /**
+     * Special class for the starting field, which extends the Field class.
+     *
+     * The starting field should have the following rule:
+     * - No 1's are allowed.
+     */
+    private class StartingField extends Field {
+        /**
+         * The constructor for creating a new Field.
+         *
+         * @param name          The name of the field.
+         * @param description   The field description, shown on board.
+         * @param landingText   The text to show when the player lands on the field.
+         * @param reward        The reward - can be both negative and positive.
+         */
+        StartingField(String name, String description, String landingText, Integer reward) {
+            super(name, description, landingText, reward);
+        }
+
+//        @Override
+//        public void doLandingAction(PlayerManager.Player player, int faceValue1, int faceValue2) {
+//            showMessage(super.landingText);
+//
+//        }
+    }
+
+    /**
+     * Special class for the Werewall field, which extends the Field class.
+     *
+     * The Werewall field should have the following rule:
+     * - Get an extra turn.
+     */
+    private class WerewallField extends Field {
+        /**
+         * The constructor for creating a new Field.
+         *
+         * @param name          The name of the field.
+         * @param description   The field description, shown on board.
+         * @param landingText   The text to show when the player lands on the field.
+         * @param reward        The reward - can be both negative and positive.
+         */
+        WerewallField(String name, String description, String landingText, Integer reward) {
+            super(name, description, landingText, reward);
+        }
+
+//        @Override
+//        public void doLandingAction(PlayerManager.Player player, int faceValue1, int faceValue2) {
+//            showMessage(super.landingText);
+//
+//        }
+    }
+
+    /**
+     * Initializes the fields in accordance to the given assignment.
+     *
+     * @return      An array consisting of GUI_Field objects, to use
+     *              with the GUI.
+     */
+    private GUI_Field[] initializeFields() {
+        GUI_Field[] fields = new GUI_Field[12];
+
+        for (int i = 1; i <= fields.length; i++) {
+            Field field = null;
+            switch (i) {
+                case 1:
+                    field = new StartingField("Start", "No 1's",
+                            "You are not allowed to roll 1's with two dice",
+                            0);
+                    break;
+                case 2:
+                    field = new Field("Tower", "The tower",
+                            "You have reached the tower and get 250!",
+                            250);
+                    break;
+                case 3:
+                    field = new Field("Crater", "The crater",
+                            "You fell into the crater and lost 100!",
+                            -100);
+                    break;
+                case 4:
+                    field = new Field("Palace gates", "The palace gates",
+                            "You have reached the palace gates and get 100!",
+                            100);
+                    break;
+                case 5:
+                    field = new Field("Cold Desert", "The cold desert",
+                            "You have reached the cold desert, you bought a blanket and lost 20!",
+                            -20);
+                    break;
+                case 6:
+                    field = new Field("Walled city", "The walled city",
+                            "You have reached the safety of the walled city, and get 180!",
+                            250);
+                    break;
+                case 7:
+                    field = new Field("Monastery", "The monastery",
+                            "You have reached the monastery and is provided with a safe place to rest - nothing gained!",
+                            0);
+                    break;
+                case 8:
+                    field = new Field("Black cave", "The cave",
+                            "You have reached the black cave and bought a torch, lost 70!",
+                            -70);
+                    break;
+                case 9:
+                    field = new Field("Huts in the mountain", "The huts",
+                            "You have reached the huts in the mountain and found a coin purse, got 60!",
+                            60);
+                    break;
+                case 10:
+                    field = new WerewallField("The Werewall (werewolf-wall)", "The werewall",
+                            "You have reached the Werewall and paid the werewolves for another turn, lost 80 but got another turn!",
+                            -80);
+                    break;
+                case 11:
+                    field = new Field("The pit", "The pit",
+                            "You fell into the deep dark pit and lost 50!",
+                            -50);
+                    break;
+                case 12:
+                    field = new Field("Goldmine", "The goldmine",
+                            "You have found gold in the mountains and sold it for 650, you are rich!",
+                            650);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + i);
+            }
+            fields[i-1] = field.getGUIStreet();
+        }
+
+        return fields;
+    }
+
+    /**
+     * Closes the GUI after usage.
+     */
+    public void closeGUI() {
+        gui.close();
+    }
+
+    /**
+     * Function to update the two dice on the GUI.
+     *
+     * @param faceValue1    The value of the first die
+     * @param faceValue2    The value of the second die
+     */
+    public void updateDice(int faceValue1, int faceValue2) {
+        gui.setDice(faceValue1, faceValue2);
+    }
+
+    /**
+     * Shows a message to the player(s), which they will have
+     * to accept to continue playing (stops the current thread).
+     *
+     * @param message       The message to be shown to the player(s)
+     */
+    public void showMessage(String message) {
+        gui.showMessage(message);
+    }
+
+    /**
+     * Helper function to ask a prompt to a player and return the
+     * result.
+     *
+     * @param question      The question to ask the player(s).
+     * @return              <code>true</code> if the player(s) agree to
+     *                      the question, else <code>false</code>.
+     */
+    public boolean askPrompt(String question) {
+        return gui.getUserLeftButtonPressed(question, "Yes", "No");
+    }
+
+    /**
+     * Function to wait for the user to roll their dice (clicking
+     * a button). The loop won't continue before they click.
+     *
+     * @param player        A Player object from the Player manager,
+     *                      which is the player which has to roll the dice now.
+     */
+    public void waitUserRoll(PlayerManager.Player player) {
+        if (player.getPoints() < 40) {
+            gui.showMessage(player.getName() + "'s turn. Click to roll the dice!");
+        }
+        else {
+            gui.showMessage(player.getName() + "'s turn. You need to roll two identical dice to win the game! Click to roll the dice!");
+        }
+    }
+
+    /**
+     * Function to create a new GUIPlayer. This function is
+     * for example used in the PlayerManager, where it is passed
+     * an instance of the GUIManager by the main function.
+     *
+     * @param startingBalance   The starting balance of a player.
+     * @return                  A GUI_Player object, linked to the
+     *                          player in question.
+     */
+    public GUI_Player createGUIPlayer(int startingBalance) {
+        String player_name = gui.getUserString("Enter name for player");
+
+        GUI_Car car = new GUI_Car();
+
+        GUI_Player player = new GUI_Player(player_name, startingBalance, car);
+
+        gui.addPlayer(player);
+
+        return player;
+    }
+}

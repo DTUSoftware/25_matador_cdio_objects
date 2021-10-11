@@ -6,6 +6,7 @@ import gui_fields.GUI_Player;
 import gui_fields.GUI_Street;
 import gui_main.GUI;
 import java.awt.*;
+import java.util.HashMap;
 
 /**
  * The GUIManager class, for managing the GUI. The
@@ -20,6 +21,7 @@ import java.awt.*;
  */
 public class GUIManager {
     private GUI gui;
+    private HashMap<Integer, GUI_Player> players = new HashMap<>();
 
     /**
      * The GUIManager constructor initializes the GUI instance, and
@@ -49,12 +51,13 @@ public class GUIManager {
         /**
          * The constructor for creating a new Field.
          *
+         * @param fieldNumber   The number of the field.
          * @param name          The name of the field.
          * @param description   The field description, shown on board.
          * @param landingText   The text to show when the player lands on the field.
          * @param reward        The reward - can be both negative and positive.
          */
-        Field(String name, String description, String landingText, Integer reward) {
+        Field(Integer fieldNumber, String name, String description, String landingText, Integer reward) {
             this.reward = reward;
             this.landingText = landingText;
 
@@ -83,13 +86,14 @@ public class GUIManager {
         /**
          * The constructor for creating a new Field.
          *
+         * @param fieldNumber   The number of the field.
          * @param name          The name of the field.
          * @param description   The field description, shown on board.
          * @param landingText   The text to show when the player lands on the field.
          * @param reward        The reward - can be both negative and positive.
          */
-        StartingField(String name, String description, String landingText, Integer reward) {
-            super(name, description, landingText, reward);
+        StartingField(Integer fieldNumber, String name, String description, String landingText, Integer reward) {
+            super(fieldNumber, name, description, landingText, reward);
         }
 
 //        @Override
@@ -109,13 +113,14 @@ public class GUIManager {
         /**
          * The constructor for creating a new Field.
          *
+         * @param fieldNumber   The number of the field.
          * @param name          The name of the field.
          * @param description   The field description, shown on board.
          * @param landingText   The text to show when the player lands on the field.
          * @param reward        The reward - can be both negative and positive.
          */
-        WerewallField(String name, String description, String landingText, Integer reward) {
-            super(name, description, landingText, reward);
+        WerewallField(Integer fieldNumber, String name, String description, String landingText, Integer reward) {
+            super(fieldNumber, name, description, landingText, reward);
         }
 
 //        @Override
@@ -135,65 +140,65 @@ public class GUIManager {
         GUI_Field[] fields = new GUI_Field[12];
 
         for (int i = 1; i <= fields.length; i++) {
-            Field field = null;
+            Field field;
             switch (i) {
                 case 1:
-                    field = new StartingField("Start", "No 1's",
+                    field = new StartingField(i, "Start", "No 1's",
                             "You are not allowed to roll 1's with two dice",
                             0);
                     break;
                 case 2:
-                    field = new Field("Tower", "The tower",
+                    field = new Field(i, "Tower", "The tower",
                             "You have reached the tower and get 250!",
                             250);
                     break;
                 case 3:
-                    field = new Field("Crater", "The crater",
+                    field = new Field(i, "Crater", "The crater",
                             "You fell into the crater and lost 100!",
                             -100);
                     break;
                 case 4:
-                    field = new Field("Palace gates", "The palace gates",
+                    field = new Field(i, "Palace gates", "The palace gates",
                             "You have reached the palace gates and get 100!",
                             100);
                     break;
                 case 5:
-                    field = new Field("Cold Desert", "The cold desert",
+                    field = new Field(i, "Cold Desert", "The cold desert",
                             "You have reached the cold desert, you bought a blanket and lost 20!",
                             -20);
                     break;
                 case 6:
-                    field = new Field("Walled city", "The walled city",
+                    field = new Field(i, "Walled city", "The walled city",
                             "You have reached the safety of the walled city, and get 180!",
                             250);
                     break;
                 case 7:
-                    field = new Field("Monastery", "The monastery",
+                    field = new Field(i, "Monastery", "The monastery",
                             "You have reached the monastery and is provided with a safe place to rest - nothing gained!",
                             0);
                     break;
                 case 8:
-                    field = new Field("Black cave", "The cave",
+                    field = new Field(i, "Black cave", "The cave",
                             "You have reached the black cave and bought a torch, lost 70!",
                             -70);
                     break;
                 case 9:
-                    field = new Field("Huts in the mountain", "The huts",
+                    field = new Field(i, "Huts in the mountain", "The huts",
                             "You have reached the huts in the mountain and found a coin purse, got 60!",
                             60);
                     break;
                 case 10:
-                    field = new WerewallField("The Werewall (werewolf-wall)", "The werewall",
+                    field = new WerewallField(i, "The Werewall (werewolf-wall)", "The werewall",
                             "You have reached the Werewall and paid the werewolves for another turn, lost 80 but got another turn!",
                             -80);
                     break;
                 case 11:
-                    field = new Field("The pit", "The pit",
+                    field = new Field(i, "The pit", "The pit",
                             "You fell into the deep dark pit and lost 50!",
                             -50);
                     break;
                 case 12:
-                    field = new Field("Goldmine", "The goldmine",
+                    field = new Field(i, "Goldmine", "The goldmine",
                             "You have found gold in the mountains and sold it for 650, you are rich!",
                             650);
                     break;
@@ -249,16 +254,11 @@ public class GUIManager {
      * Function to wait for the user to roll their dice (clicking
      * a button). The loop won't continue before they click.
      *
-     * @param player        A Player object from the Player manager,
-     *                      which is the player which has to roll the dice now.
+     * @param playerName        The name of a player who has
+     *                          to roll the dice now.
      */
-    public void waitUserRoll(PlayerManager.Player player) {
-        if (player.getPoints() < 40) {
-            gui.showMessage(player.getName() + "'s turn. Click to roll the dice!");
-        }
-        else {
-            gui.showMessage(player.getName() + "'s turn. You need to roll two identical dice to win the game! Click to roll the dice!");
-        }
+    public void waitUserRoll(String playerName) {
+        gui.showMessage(playerName + "'s turn. Click to roll the dice!");
     }
 
     /**
@@ -266,11 +266,12 @@ public class GUIManager {
      * for example used in the PlayerManager, where it is passed
      * an instance of the GUIManager by the main function.
      *
+     * @param playerID          The ID of the player.
      * @param startingBalance   The starting balance of a player.
      * @return                  A GUI_Player object, linked to the
      *                          player in question.
      */
-    public GUI_Player createGUIPlayer(int startingBalance) {
+    public GUI_Player createGUIPlayer(int playerID, int startingBalance) {
         String player_name = gui.getUserString("Enter name for player");
 
         GUI_Car car = new GUI_Car();
@@ -278,7 +279,37 @@ public class GUIManager {
         GUI_Player player = new GUI_Player(player_name, startingBalance, car);
 
         gui.addPlayer(player);
+        this.players.put(playerID, player);
 
         return player;
+    }
+
+    /**
+     * Moves a player to a designated field.
+     *
+     * @param playerID      The ID of the player.
+     * @param fieldNumber   The number of the field to move the player to.
+     */
+    public void movePlayerField(int playerID, int fieldNumber) {
+        GUI_Player player = this.players.get(playerID);
+        assert(player != null);
+
+        GUI_Field field = gui.getFields()[fieldNumber];
+        assert(field != null);
+
+        player.getCar().setPosition(field);
+    }
+
+    /**
+     * Sets the balance of a player on the GUI.
+     *
+     * @param playerID  The ID of the player.
+     * @param balance   The balance to set to the player.
+     */
+    public void setPlayerBalance(int playerID, int balance) {
+        GUI_Player player = this.players.get(playerID);
+        assert(player != null);
+
+        player.setBalance(balance);
     }
 }

@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+actor :Player: as Player
+
+rectangle MoneyDiceGame {
+    left to right direction
+
+    usecase "Play the game" as Play
+}
+
+Player "2" -- (Play)
+
+
+
+@enduml

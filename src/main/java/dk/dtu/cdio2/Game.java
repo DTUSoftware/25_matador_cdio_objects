@@ -8,16 +8,12 @@ import dk.dtu.cdio2.PlayerManager.Player;
 public class Game {
     private final static GUIManager gm = new GUIManager();
     private final static PlayerManager pm = new PlayerManager();
-
-    private static Player player1;
-    private static Player player2;
+    private Action[] actions = new Action[1];
 
     private static boolean isPlaying = true;
     private final static boolean debug = ((System.getenv("debug") != null) || (System.getProperty("debug") != null));
 
     public static void main(String[] args) {
-        player1 = pm.createPlayer(gm);
-        player2 = pm.createPlayer(gm);
 
         //***************************************************************//
         // Play the game until they want to stop playing.
@@ -31,6 +27,27 @@ public class Game {
         //***************************************************************//
         gm.closeGUI();
         System.exit(0);
+    }
+
+    private class Action {
+        private Integer actionID;
+
+        Action(Integer actionID) {
+            this.actionID = actionID;
+        }
+
+        public void doAction(Integer playerID) {}
+    }
+
+    private class RollAction extends Action {
+        RollAction(Integer actionID) {
+            super(actionID);
+        }
+
+        @Override
+        public void doAction(Integer playerID) {
+
+        }
     }
 
     public static void play() {

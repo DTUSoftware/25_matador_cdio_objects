@@ -53,17 +53,16 @@ public class GUIManager {
          *
          * @param fieldNumber   The number of the field.
          * @param name          The name of the field.
-         * @param description   The field description, shown on board.
          * @param landingText   The text to show when the player lands on the field.
          * @param reward        The reward - can be both negative and positive.
          */
-        Field(Integer fieldNumber, String name, String description, String landingText, Integer reward) {
+        Field(Integer fieldNumber, String name, String landingText, Integer reward) {
             this.reward = reward;
             this.landingText = landingText;
 
             this.guiStreet = new GUI_Street();
-            this.guiStreet.setTitle(name);
-            this.guiStreet.setSubText(description + " - Reward: " + reward.toString());
+            this.guiStreet.setTitle(fieldNumber.toString());
+            this.guiStreet.setSubText(name + " | " + reward.toString());
         }
 
         public void doLandingAction(PlayerManager.Player player, int faceValue1, int faceValue2) {
@@ -88,12 +87,11 @@ public class GUIManager {
          *
          * @param fieldNumber   The number of the field.
          * @param name          The name of the field.
-         * @param description   The field description, shown on board.
          * @param landingText   The text to show when the player lands on the field.
          * @param reward        The reward - can be both negative and positive.
          */
-        StartingField(Integer fieldNumber, String name, String description, String landingText, Integer reward) {
-            super(fieldNumber, name, description, landingText, reward);
+        StartingField(Integer fieldNumber, String name, String landingText, Integer reward) {
+            super(fieldNumber, name, landingText, reward);
         }
 
 //        @Override
@@ -115,12 +113,11 @@ public class GUIManager {
          *
          * @param fieldNumber   The number of the field.
          * @param name          The name of the field.
-         * @param description   The field description, shown on board.
          * @param landingText   The text to show when the player lands on the field.
          * @param reward        The reward - can be both negative and positive.
          */
-        WerewallField(Integer fieldNumber, String name, String description, String landingText, Integer reward) {
-            super(fieldNumber, name, description, landingText, reward);
+        WerewallField(Integer fieldNumber, String name, String landingText, Integer reward) {
+            super(fieldNumber, name, landingText, reward);
         }
 
 //        @Override
@@ -143,62 +140,62 @@ public class GUIManager {
             Field field;
             switch (i) {
                 case 1:
-                    field = new StartingField(i, "Start", "No 1's",
-                            "You are not allowed to roll 1's with two dice",
+                    field = new StartingField(i, "Not possible to roll 1",
+                            "How did you even get here..?",
                             0);
                     break;
                 case 2:
-                    field = new Field(i, "Tower", "The tower",
+                    field = new Field(i, "Tower",
                             "You have reached the tower and get 250!",
                             250);
                     break;
                 case 3:
-                    field = new Field(i, "Crater", "The crater",
+                    field = new Field(i, "Crater",
                             "You fell into the crater and lost 100!",
                             -100);
                     break;
                 case 4:
-                    field = new Field(i, "Palace gates", "The palace gates",
+                    field = new Field(i, "Palace gates",
                             "You have reached the palace gates and get 100!",
                             100);
                     break;
                 case 5:
-                    field = new Field(i, "Cold Desert", "The cold desert",
+                    field = new Field(i, "Cold Desert",
                             "You have reached the cold desert, you bought a blanket and lost 20!",
                             -20);
                     break;
                 case 6:
-                    field = new Field(i, "Walled city", "The walled city",
+                    field = new Field(i, "Walled city",
                             "You have reached the safety of the walled city, and get 180!",
                             250);
                     break;
                 case 7:
-                    field = new Field(i, "Monastery", "The monastery",
+                    field = new Field(i, "Monastery",
                             "You have reached the monastery and is provided with a safe place to rest - nothing gained!",
                             0);
                     break;
                 case 8:
-                    field = new Field(i, "Black cave", "The cave",
+                    field = new Field(i, "Black cave",
                             "You have reached the black cave and bought a torch, lost 70!",
                             -70);
                     break;
                 case 9:
-                    field = new Field(i, "Huts in the mountain", "The huts",
+                    field = new Field(i, "Huts in the mountain",
                             "You have reached the huts in the mountain and found a coin purse, got 60!",
                             60);
                     break;
                 case 10:
-                    field = new WerewallField(i, "The Werewall (werewolf-wall)", "The werewall",
+                    field = new WerewallField(i, "The Werewall",
                             "You have reached the Werewall and paid the werewolves for another turn, lost 80 but got another turn!",
                             -80);
                     break;
                 case 11:
-                    field = new Field(i, "The pit", "The pit",
+                    field = new Field(i, "The pit",
                             "You fell into the deep dark pit and lost 50!",
                             -50);
                     break;
                 case 12:
-                    field = new Field(i, "Goldmine", "The goldmine",
+                    field = new Field(i, "Goldmine",
                             "You have found gold in the mountains and sold it for 650, you are rich!",
                             650);
                     break;

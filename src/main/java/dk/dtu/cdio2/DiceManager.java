@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class DiceManager {
     private final int minDieValue = 1;
-    private final int maxDieValue = 6;
+    private int maxDieValue = 6;
 
     private final Random rand = new Random();
 
@@ -21,6 +21,18 @@ public class DiceManager {
     private class Die {
 
         private int faceValue = 6;
+
+        /**
+         * Constructor for the die class where you can set the max dice value
+         * fx if you want a D8 instead of a D6. Default is D6
+         * @param side is the amount of sides you want on the die
+         */
+        public Die(int side){
+            maxDieValue=side;
+        }
+        public Die(){
+            faceValue = faceValue;
+        }
 
         /**
          * Raffle function to set the facevalue of a die randomly
@@ -40,6 +52,8 @@ public class DiceManager {
         public int getValue() {
             return faceValue;
         }
+
+
     }
 
     /**
@@ -75,6 +89,7 @@ public class DiceManager {
         /**
          * getDiceValues function that gives out the values of
          * the individues dice
+         *
          * @return The facevalue of the individual dice
          */
         public int[] getDiceValues() {

@@ -1,15 +1,13 @@
 package dk.dtu.cdio2;
 
-import dk.dtu.cdio2.PlayerManager.Player;
-
 //***************************************************************//
 // Main class for the program
 //***************************************************************//
 public class Game {
     private final static GUIManager gm = new GUIManager();
     private final static PlayerManager pm = new PlayerManager();
-    private Action[] actions = new Action[1];
 
+    private final Action[] actions = new Action[]{ new RollAction(1) };
     private static boolean isPlaying = true;
     private final static boolean debug = ((System.getenv("debug") != null) || (System.getProperty("debug") != null));
 

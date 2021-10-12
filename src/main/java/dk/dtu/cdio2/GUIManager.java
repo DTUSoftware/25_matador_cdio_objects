@@ -76,32 +76,6 @@ public class GUIManager {
     }
 
     /**
-     * Special class for the starting field, which extends the Field class.
-     *
-     * The starting field should have the following rule:
-     * - No 1's are allowed.
-     */
-    private class StartingField extends Field {
-        /**
-         * The constructor for creating a new Field.
-         *
-         * @param fieldNumber   The number of the field.
-         * @param name          The name of the field.
-         * @param landingText   The text to show when the player lands on the field.
-         * @param reward        The reward - can be both negative and positive.
-         */
-        StartingField(Integer fieldNumber, String name, String landingText, Integer reward) {
-            super(fieldNumber, name, landingText, reward);
-        }
-
-//        @Override
-//        public void doLandingAction(PlayerManager.Player player, int faceValue1, int faceValue2) {
-//            showMessage(super.landingText);
-//
-//        }
-    }
-
-    /**
      * Special class for the Werewall field, which extends the Field class.
      *
      * The Werewall field should have the following rule:
@@ -140,7 +114,7 @@ public class GUIManager {
             Field field;
             switch (i) {
                 case 1:
-                    field = new StartingField(i, "Not possible to roll 1",
+                    field = new Field(i, "Not possible to roll 1",
                             "How did you even get here..?",
                             0);
                     break;
@@ -291,7 +265,8 @@ public class GUIManager {
         GUI_Player player = this.players.get(playerID);
         assert(player != null);
 
-        GUI_Field field = gui.getFields()[fieldNumber];
+        // The given fieldNumber may be 12, but the field element number is one less
+        GUI_Field field = gui.getFields()[fieldNumber-1];
         assert(field != null);
 
         player.getCar().setPosition(field);

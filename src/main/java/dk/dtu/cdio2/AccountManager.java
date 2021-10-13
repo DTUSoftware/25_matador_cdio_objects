@@ -63,8 +63,22 @@ public class AccountManager {
         }
     }
 
+    private Integer generateNewAccountID() {
+        int accountID = accounts.size()+1;
+        // check if account ID is already taken
+        while (true) {
+            if (accounts.get(accountID) != null) {
+                accountID += 1;
+            }
+            else {
+                break;
+            }
+        }
+        return accountID;
+    }
+
     public Account createAccount() {
-        Integer accountID = accounts.size()+1;
+        int accountID = generateNewAccountID();
         Account account = new Account(accountID);
         accounts.put(accountID, account);
 
@@ -72,7 +86,7 @@ public class AccountManager {
     }
 
     public Account createAccount(double startingBalance) {
-        Integer accountID = accounts.size()+1;
+        int accountID = generateNewAccountID();
         Account account = new Account(accountID, startingBalance);
         accounts.put(accountID, account);
 

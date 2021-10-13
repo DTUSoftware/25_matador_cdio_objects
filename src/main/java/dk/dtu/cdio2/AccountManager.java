@@ -11,15 +11,15 @@ public class AccountManager {
     /**
      * The Account class, typically a Player has an instance of this class.
      */
-    private class Account {
+    public class Account {
         private Integer accountID;
         private double balance = 0.0;
 
-        public Account(Integer accountID) {
+        private Account(Integer accountID) {
             this.accountID = accountID;
         }
 
-        public Account(Integer accountID, double startingBalance) {
+        private Account(Integer accountID, double startingBalance) {
             this.accountID = accountID;
             balance = startingBalance;
         }
@@ -63,16 +63,20 @@ public class AccountManager {
         }
     }
 
-    public void createAccount() {
+    public Account createAccount() {
         Integer accountID = accounts.size()+1;
         Account account = new Account(accountID);
         accounts.put(accountID, account);
+
+        return account;
     }
 
-    public void createAccount(double startingBalance) {
+    public Account createAccount(double startingBalance) {
         Integer accountID = accounts.size()+1;
         Account account = new Account(accountID, startingBalance);
         accounts.put(accountID, account);
+
+        return account;
     }
 
     public Account getAccount(Integer accountID) {

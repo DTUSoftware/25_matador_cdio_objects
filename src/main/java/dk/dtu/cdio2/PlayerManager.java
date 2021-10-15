@@ -1,6 +1,7 @@
 package dk.dtu.cdio2;
 
 import java.util.HashMap;
+import dk.dtu.cdio2.AccountManager;
 
 public class PlayerManager {
 
@@ -10,7 +11,7 @@ public class PlayerManager {
 
     private HashMap<Integer, Player> players = new HashMap<>();
 
-    class Player {
+    private static class Player {
 
         private final String name;
         private int money = 0;
@@ -37,6 +38,7 @@ public class PlayerManager {
     public Player createPlayer() {
         Player player = new Player();
         players.put(players.size(), player);
+        AccountManager.createAccount(0);
         return player;
     }
 }

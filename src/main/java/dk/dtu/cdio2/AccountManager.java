@@ -6,12 +6,12 @@ import java.util.HashMap;
  * The Account Controller.
  */
 public class AccountManager {
-    private HashMap<Integer, Account> accounts = new HashMap<>();
+    private static HashMap<Integer, Account> accounts = new HashMap<>();
 
     /**
      * The Account class, typically a Player has an instance of this class.
      */
-    private class Account {
+    private static class Account {
         private Integer accountID;
         private double balance = 0.0;
 
@@ -63,13 +63,7 @@ public class AccountManager {
         }
     }
 
-    public void createAccount() {
-        Integer accountID = accounts.size()+1;
-        Account account = new Account(accountID);
-        accounts.put(accountID, account);
-    }
-
-    public void createAccount(double startingBalance) {
+    public static void createAccount(double startingBalance) {
         Integer accountID = accounts.size()+1;
         Account account = new Account(accountID, startingBalance);
         accounts.put(accountID, account);

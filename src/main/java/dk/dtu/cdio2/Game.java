@@ -1,8 +1,8 @@
 package dk.dtu.cdio2;
 
-//***************************************************************//
-// Main class for the program
-//***************************************************************//
+/**
+ * Main class for the program
+ */
 public class Game {
     private final static GUIManager gm = new GUIManager();
     private final static PlayerManager pm = new PlayerManager();

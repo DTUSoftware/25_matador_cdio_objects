@@ -15,35 +15,37 @@ public class PlayerManager {
     private static class Player {
 
         private final String name;
-        private int pmAccountID = 0;
+        private int playerID;
+        private int accountID;
 
-        Player (String name) {
+        Player (String name, int playerID) {
             this.name = name;
+            this.playerID = playerID;
+            this.accountID = am.createAccount().getAccountID();
         }
 
         public void withdrawMoney(int m) {
-            am.withdraw(); //Mangler at connecte am med mp her
+            am.getAccount(this.accountID).withdraw(m); //Mangler at connecte am med mp her
         }
 
         public void setMoney(int newMoney) {
-            am.balance = newMoney; //Mangler at connecte am med mp her
+            am.getAccount(this.accountID).setBalance(newMoney); //Mangler at connecte am med mp her
         }
 
-        public int getMoney() {
-            return am.getMoney(); //Mangler at connecte am med mp her
+        public double getMoney() {
+            return am.getAccount(this.accountID).getMoney(); //Mangler at connecte am med mp her
         }
 
         public int getID() {
-            return pmAccountID;
+            return this.playerID;
         }
     }
 
 
     public Player createPlayer(String name) {
-        Player player = new Player(name);
-        Integer ID = players.size()+1;
-        players.put(ID, player);
-        am.createAccount(ID, 0);
+        int ID = players.size()+1;
+        Player player = new Player(name, ID);
+        players.put(player.getID(), player);
         return player;
     }
 }

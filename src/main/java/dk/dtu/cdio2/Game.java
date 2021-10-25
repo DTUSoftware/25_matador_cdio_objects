@@ -2,9 +2,9 @@ package dk.dtu.cdio2;
 
 import dk.dtu.cdio2.PlayerManager.Player;
 
-//***************************************************************//
-// Main class for the program
-//***************************************************************//
+/**
+ * Main class for the program
+ */
 public class Game {
     private final static GUIManager gm = new GUIManager();
     private final static PlayerManager pm = new PlayerManager();

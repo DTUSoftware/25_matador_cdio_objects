@@ -25,12 +25,14 @@ public class DiceManager {
         /**
          * Constructor for the die class where you can set the max dice value
          * fx if you want a D8 instead of a D6. Default is D6
+         *
          * @param side is the amount of sides you want on the die
          */
-        public Die(int side){
-            maxDieValue=side;
+        public Die(int side) {
+            maxDieValue = side;
         }
-        public Die(){
+
+        public Die() {
             faceValue = faceValue;
         }
 

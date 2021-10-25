@@ -9,9 +9,6 @@ import java.util.Random;
  * with a few edits so it fits the CDIO-2 assignment better
  */
 public class DiceManager {
-    private final int minDieValue = 1;
-    private int maxDieValue = 6;
-
     private final Random rand = new Random();
 
     /**
@@ -19,20 +16,20 @@ public class DiceManager {
      * a face value of the die
      */
     private class Die {
+        private int minDieValue = 1;
+        private int maxDieValue = 6;
 
         private int faceValue = 6;
 
         /**
          * Constructor for the die class where you can set the max dice value
          * fx if you want a D8 instead of a D6. Default is D6
-         * @param side is the amount of sides you want on the die
+         * @param maxDieValue is the amount of sides you want on the die
          */
-        public Die(int side){
-            maxDieValue=side;
+        public Die(int maxDieValue){
+            this.maxDieValue = maxDieValue;
         }
-        public Die(){
-            faceValue = faceValue;
-        }
+        public Die() {}
 
         /**
          * Raffle function to set the facevalue of a die randomly

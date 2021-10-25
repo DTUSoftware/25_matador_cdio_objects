@@ -65,9 +65,9 @@ public class GUIManager {
             this.guiStreet.setSubText(name + " | " + reward.toString());
         }
 
-        public void doLandingAction(PlayerManager.Player player, int faceValue1, int faceValue2) {
+        public void doLandingAction(PlayerManager pm, int playerID, int faceValue1, int faceValue2) {
             showMessage(this.landingText);
-            player.withdraw(this.reward);
+            pm.getPlayer(playerID).withdrawMoney(this.reward);
         }
 
         public GUI_Street getGUIStreet() {

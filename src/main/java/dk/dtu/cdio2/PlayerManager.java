@@ -12,7 +12,7 @@ public class PlayerManager {
 
     private HashMap<Integer, Player> players = new HashMap<>();
 
-    private static class Player {
+    public class Player {
 
         private final String name;
         private int playerID;
@@ -47,5 +47,9 @@ public class PlayerManager {
         Player player = new Player(name, ID);
         players.put(player.getID(), player);
         return player;
+    }
+
+    public Player getPlayer(int playerID) {
+        return players.get(playerID);
     }
 }

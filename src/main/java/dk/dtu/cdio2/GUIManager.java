@@ -222,6 +222,17 @@ public class GUIManager {
     }
 
     /**
+     * Helper function to ask a prompt to a player and return the
+     * response.
+     *
+     * @param question      The question to ask the player(s).
+     * @return              The string the player(s) wrote in response.
+     */
+    public String getUserString(String question) {
+        return gui.getUserString(question);
+    }
+
+    /**
      * Function to wait for the user to roll their dice (clicking
      * a button). The loop won't continue before they click.
      *
@@ -242,12 +253,10 @@ public class GUIManager {
      * @return                  A GUI_Player object, linked to the
      *                          player in question.
      */
-    public GUI_Player createGUIPlayer(int playerID, int startingBalance) {
-        String player_name = gui.getUserString("Enter name for player");
-
+    public GUI_Player createGUIPlayer(int playerID, String playerName, double startingBalance) {
         GUI_Car car = new GUI_Car();
 
-        GUI_Player player = new GUI_Player(player_name, startingBalance, car);
+        GUI_Player player = new GUI_Player(playerName, (int) startingBalance, car); // the GUI takes int, so typecast
 
         gui.addPlayer(player);
         this.players.put(playerID, player);
@@ -278,10 +287,10 @@ public class GUIManager {
      * @param playerID  The ID of the player.
      * @param balance   The balance to set to the player.
      */
-    public void setPlayerBalance(int playerID, int balance) {
+    public void setPlayerBalance(int playerID, double balance) {
         GUI_Player player = this.players.get(playerID);
         assert(player != null);
 
-        player.setBalance(balance);
+        player.setBalance((int) balance); // The GUI only accepts integers, so typecasting
     }
 }

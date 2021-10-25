@@ -24,7 +24,7 @@ public class PlayerManager {
             this.accountID = am.createAccount().getAccountID();
         }
 
-        public void withdrawMoney(int m) {
+        public void withdrawMoney(double m) {
             am.getAccount(this.accountID).withdraw(m); //Mangler at connecte am med mp her
         }
 

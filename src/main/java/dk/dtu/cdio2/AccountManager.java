@@ -6,21 +6,21 @@ import java.util.HashMap;
  * The Account Controller.
  */
 public class AccountManager {
-    private static HashMap<Integer, Account> accounts = new HashMap<>();
+    private HashMap<Integer, Account> accounts = new HashMap<>();
 
     /**
      * The Account class, typically a Player has an instance of this class.
      */
-    private static class Account {
-        private Integer amAccountID;
+    public class Account {
+        private Integer accountID;
         private double balance = 0.0;
 
-        public Account(Integer amAccountID) {
-            this.amAccountID = amAccountID;
+        private Account(Integer accountID) {
+            this.accountID = accountID;
         }
 
-        public Account(Integer amAccountID, double startingBalance) {
-            this.amAccountID = amAccountID;
+        private Account(Integer accountID, double startingBalance) {
+            this.accountID = accountID;
             balance = startingBalance;
         }
 
@@ -51,24 +51,58 @@ public class AccountManager {
          */
         public boolean withdraw(double amount) {
             if (balance+amount < 0) {
-                balance = 0;  //hvis jeg købet noget for 100kr og kun har 10kr får jeg ikke lov til at købe og mister 10kr?
+                balance = 0;
                 return false;
             }
             balance = balance+amount;
             return true;
         }
 
-        public Integer getamAccountID() {
-            return amAccountID;
+        /**
+         * Sets the balance to the given amount.
+         *
+         * @param balance   The balance to set to.
+         */
+        public void setBalance(double balance) {
+            this.balance = balance;
+        }
+
+        public Integer getAccountID() {
+            return accountID;
         }
     }
 
-    public void createAccount(int amAccountID, double startingBalance) {
-        Account account = new Account(amAccountID, startingBalance);
-        accounts.put(amAccountID, account);
+    private Integer generateNewAccountID() {
+        int accountID = accounts.size()+1;
+        // check if account ID is already taken
+        while (true) {
+            if (accounts.get(accountID) != null) {
+                accountID += 1;
+            }
+            else {
+                break;
+            }
+        }
+        return accountID;
     }
 
-    public Account getAccount(Integer amAccountID) {
-        return accounts.get(amAccountID);
+    public Account createAccount() {
+        int accountID = generateNewAccountID();
+        Account account = new Account(accountID);
+        accounts.put(accountID, account);
+
+        return account;
+    }
+
+    public Account createAccount(double startingBalance) {
+        int accountID = generateNewAccountID();
+        Account account = new Account(accountID, startingBalance);
+        accounts.put(accountID, account);
+
+        return account;
+    }
+
+    public Account getAccount(Integer accountID) {
+        return accounts.get(accountID);
     }
 }

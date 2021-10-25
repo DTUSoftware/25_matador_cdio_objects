@@ -73,7 +73,10 @@ public class LanguageManager {
             message = messages.getString(messageKey);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            // Don't print the stacktrace when we run tests
+            if (!messageKey.equals("non_existent_test_string")) {
+                e.printStackTrace();
+            }
             message = "Could not read message '" + messageKey + "' from locale " + locale.getLanguage();
         }
         return message;

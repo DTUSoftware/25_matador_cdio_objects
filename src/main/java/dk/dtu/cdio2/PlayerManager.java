@@ -24,11 +24,15 @@ public class PlayerManager {
             this.accountID = am.createAccount().getAccountID();
         }
 
-        public void withdrawMoney(double m) {
-            am.getAccount(this.accountID).withdraw(m); //Mangler at connecte am med mp her
+        public String getName() {
+            return name;
         }
 
-        public void setMoney(int newMoney) {
+        public boolean withdrawMoney(double m) {
+            return am.getAccount(this.accountID).withdraw(m); //Mangler at connecte am med mp her
+        }
+
+        public void setMoney(double newMoney) {
             am.getAccount(this.accountID).setBalance(newMoney); //Mangler at connecte am med mp her
         }
 

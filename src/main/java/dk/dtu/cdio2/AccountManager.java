@@ -67,7 +67,7 @@ public class AccountManager {
             this.balance = balance;
         }
 
-        public Integer getAccountID() {
+        public int getAccountID() {
             return accountID;
         }
     }

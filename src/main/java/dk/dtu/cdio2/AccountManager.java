@@ -58,6 +58,15 @@ public class AccountManager {
             return true;
         }
 
+        /**
+         * Sets the balance to the given amount.
+         *
+         * @param balance   The balance to set to.
+         */
+        public void setBalance(double balance) {
+            this.balance = balance;
+        }
+
         public Integer getAccountID() {
             return accountID;
         }

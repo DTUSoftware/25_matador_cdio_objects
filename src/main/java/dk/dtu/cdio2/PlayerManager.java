@@ -1,9 +1,10 @@
 package dk.dtu.cdio2;
 
 import java.util.HashMap;
-import dk.dtu.cdio2.AccountManager;
 
 public class PlayerManager {
+
+    private final static AccountManager am = new AccountManager(); //<- tror ikke på at det er nødvendigt at også havde den her
 
     /**
      * We create a HashMap to keep the players and their numbers.
@@ -14,31 +15,35 @@ public class PlayerManager {
     private static class Player {
 
         private final String name;
-        private int money = 0;
+        private int pmAccountID = 0;
 
         Player (String name) {
             this.name = name;
         }
 
         public void withdrawMoney(int m) {
-            money += m;
+            am.withdraw(); //Mangler at connecte am med mp her
         }
 
         public void setMoney(int newMoney) {
-            money = newMoney;
+            am.balance = newMoney; //Mangler at connecte am med mp her
         }
 
         public int getMoney() {
-            return money;
+            return am.getMoney(); //Mangler at connecte am med mp her
         }
 
-
+        public int getID() {
+            return pmAccountID;
+        }
     }
 
-    public Player createPlayer() {
-        Player player = new Player();
-        players.put(players.size(), player);
-        AccountManager.createAccount(0);
+
+    public Player createPlayer(String name) {
+        Player player = new Player(name);
+        Integer ID = players.size()+1;
+        players.put(ID, player);
+        am.createAccount(ID, 0);
         return player;
     }
 }

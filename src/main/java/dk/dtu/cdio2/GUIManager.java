@@ -21,6 +21,7 @@ import java.util.HashMap;
  */
 public class GUIManager {
     private GUI gui;
+    private Field[] fields;
     private HashMap<Integer, GUI_Player> players = new HashMap<>();
 
     /**
@@ -43,7 +44,7 @@ public class GUIManager {
      * to for example control custom stuff for special fields by extending the
      * class.
      */
-    private class Field {
+    public class Field {
         private GUI_Street  guiStreet;
         private String      landingText;
         private Integer     reward;
@@ -65,7 +66,7 @@ public class GUIManager {
             this.guiStreet.setSubText(name + " | " + reward.toString());
         }
 
-        public void doLandingAction(PlayerManager pm, int playerID, int faceValue1, int faceValue2) {
+        public void doLandingAction(PlayerManager pm, ActionManager am, int playerID) {
             showMessage(this.landingText);
             pm.getPlayer(playerID).withdrawMoney(this.reward);
         }
@@ -81,7 +82,7 @@ public class GUIManager {
      * The Werewall field should have the following rule:
      * - Get an extra turn.
      */
-    private class WerewallField extends Field {
+    public class WerewallField extends Field {
         /**
          * The constructor for creating a new Field.
          *
@@ -94,11 +95,12 @@ public class GUIManager {
             super(fieldNumber, name, landingText, reward);
         }
 
-//        @Override
-//        public void doLandingAction(PlayerManager.Player player, int faceValue1, int faceValue2) {
-//            showMessage(super.landingText);
-//
-//        }
+        @Override
+        public void doLandingAction(PlayerManager pm, ActionManager am, int playerID) {
+            super.doLandingAction(pm, am, playerID);
+
+            am.getAction(1).doAction(playerID);
+        }
     }
 
     /**
@@ -109,6 +111,7 @@ public class GUIManager {
      */
     private GUI_Field[] initializeFields() {
         GUI_Field[] fields = new GUI_Field[12];
+        Field[] customFields = new Field[12];
 
         for (int i = 1; i <= fields.length; i++) {
             Field field;
@@ -176,9 +179,10 @@ public class GUIManager {
                 default:
                     throw new IllegalStateException("Unexpected value: " + i);
             }
+            customFields[i-1] = field;
             fields[i-1] = field.getGUIStreet();
         }
-
+        this.fields = customFields;
         return fields;
     }
 
@@ -222,6 +226,17 @@ public class GUIManager {
     }
 
     /**
+     * Helper function to ask a prompt to a player and return the
+     * response.
+     *
+     * @param question      The question to ask the player(s).
+     * @return              The string the player(s) wrote in response.
+     */
+    public String getUserString(String question) {
+        return gui.getUserString(question);
+    }
+
+    /**
      * Function to wait for the user to roll their dice (clicking
      * a button). The loop won't continue before they click.
      *
@@ -242,12 +257,10 @@ public class GUIManager {
      * @return                  A GUI_Player object, linked to the
      *                          player in question.
      */
-    public GUI_Player createGUIPlayer(int playerID, int startingBalance) {
-        String player_name = gui.getUserString("Enter name for player");
-
+    public GUI_Player createGUIPlayer(int playerID, String playerName, double startingBalance) {
         GUI_Car car = new GUI_Car();
 
-        GUI_Player player = new GUI_Player(player_name, startingBalance, car);
+        GUI_Player player = new GUI_Player(playerName, (int) startingBalance, car); // the GUI takes int, so typecast
 
         gui.addPlayer(player);
         this.players.put(playerID, player);
@@ -260,16 +273,18 @@ public class GUIManager {
      *
      * @param playerID      The ID of the player.
      * @param fieldNumber   The number of the field to move the player to.
+     * @return              The Field which the Player landed on.
      */
-    public void movePlayerField(int playerID, int fieldNumber) {
+    public Field movePlayerField(int playerID, int fieldNumber) {
         GUI_Player player = this.players.get(playerID);
         assert(player != null);
 
         // The given fieldNumber may be 12, but the field element number is one less
-        GUI_Field field = gui.getFields()[fieldNumber-1];
+        Field field = this.fields[fieldNumber-1];
         assert(field != null);
 
-        player.getCar().setPosition(field);
+        player.getCar().setPosition(field.getGUIStreet());
+        return field;
     }
 
     /**
@@ -278,10 +293,10 @@ public class GUIManager {
      * @param playerID  The ID of the player.
      * @param balance   The balance to set to the player.
      */
-    public void setPlayerBalance(int playerID, int balance) {
+    public void setPlayerBalance(int playerID, double balance) {
         GUI_Player player = this.players.get(playerID);
         assert(player != null);
 
-        player.setBalance(balance);
+        player.setBalance((int) balance); // The GUI only accepts integers, so typecasting
     }
 }

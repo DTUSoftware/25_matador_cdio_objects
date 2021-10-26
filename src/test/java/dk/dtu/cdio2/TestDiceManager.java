@@ -20,6 +20,7 @@ public class TestDiceManager {
     public void testDiceCupAndDieCreation() {
         DiceCup testCup = dm.createDiceCup();
         assertArrayEquals(new int[] {6, 6}, testCup.getDiceValues());
+        assertEquals(12, testCup.getSum());
     }
 
     /**
@@ -38,6 +39,9 @@ public class TestDiceManager {
             // Ensure that the value is between 1 and 6
             assertTrue((1 <= diceValues[0] && diceValues[0] <= 6) &&
                     (1 <= diceValues[1] && diceValues[1] <= 6));
+            // Ensure that the sum is between 2 and 12
+            int diceSum = testCup.getSum();
+            assertTrue(2 <= diceSum && diceSum <= 12);
         }
     }
 

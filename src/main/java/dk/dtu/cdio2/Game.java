@@ -8,7 +8,7 @@ import dk.dtu.cdio2.managers.*;
  */
 public class Game {
     private final static LanguageManager lm = new LanguageManager();
-    private final static GUIManager gm = new GUIManager();
+    private static GUIManager gm;
     private final static PlayerManager pm = new PlayerManager();
     private final static DiceManager dm = new DiceManager();
     private final static ActionManager actm = new ActionManager();
@@ -40,6 +40,8 @@ public class Game {
     }
 
     public static void main(String[] args) {
+        gm = new GUIManager();
+
         // Choose a language
         if (gm.askLanguage()) {
             lm.setLocale("en");

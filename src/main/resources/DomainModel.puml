@@ -10,7 +10,7 @@ class Die {
 
 class Player {
     name
-    money
+
 }
 class Fields{
     number
@@ -19,8 +19,12 @@ class Fields{
     extra turn
 }
 
+class Account{
+ money
+}
+
 MoneyDiceGame "1" -r "2" Player : Includes
 MoneyDiceGame "1" -l "2" Die : Includes
 MoneyDiceGame "1" -- "12" Fields : Includes
-
+Player  "1" -d- "1" Account: Includes
 @enduml

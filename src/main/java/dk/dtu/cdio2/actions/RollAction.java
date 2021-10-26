@@ -3,6 +3,7 @@ package dk.dtu.cdio2.actions;
 import dk.dtu.cdio2.ActionManager;
 import dk.dtu.cdio2.DiceManager.DiceCup;
 import dk.dtu.cdio2.GUIManager;
+import dk.dtu.cdio2.Game;
 import dk.dtu.cdio2.PlayerManager;
 
 public class RollAction extends Action {
@@ -23,7 +24,9 @@ public class RollAction extends Action {
     public void doAction(Integer playerID) {
         PlayerManager.Player player = pm.getPlayer(playerID);
 
-        gm.waitUserRoll(player.getName());
+        if (!Game.debug) {
+            gm.waitUserRoll(player.getName());
+        }
         dc.raffleCup();
 
         int[] diceValues = dc.getDiceValues();

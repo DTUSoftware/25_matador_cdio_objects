@@ -21,6 +21,7 @@ import java.util.HashMap;
  */
 public class GUIManager {
     private GUI gui;
+    private LanguageManager lm;
     private Field[] fields;
     private HashMap<Integer, GUI_Player> players = new HashMap<>();
 
@@ -28,12 +29,22 @@ public class GUIManager {
      * The GUIManager constructor initializes the GUI instance, and
      * create a new instance of the dtudiplom GUI.
      */
-    public GUIManager() {
+    public GUIManager(LanguageManager lm) {
+        this.lm = lm;
         GUI_Field[] fields = initializeFields();
 
         gui = new GUI(fields, Color.decode("0x"+"3E6990"));
 
         gui.setDice(6, 6);
+    }
+
+    /**
+     * Reloads the language on all fields.
+     */
+    public void reloadLanguage() {
+        for (Field field : fields) {
+            field.reloadLanguage();
+        }
     }
 
     /**
@@ -47,23 +58,30 @@ public class GUIManager {
     public class Field {
         private GUI_Street  guiStreet;
         private String      landingText;
-        private Integer     reward;
+        private int         reward;
+        private int         fieldNumber;
 
         /**
          * The constructor for creating a new Field.
          *
          * @param fieldNumber   The number of the field.
-         * @param name          The name of the field.
-         * @param landingText   The text to show when the player lands on the field.
          * @param reward        The reward - can be both negative and positive.
          */
-        Field(Integer fieldNumber, String name, String landingText, Integer reward) {
+        Field(int fieldNumber, int reward) {
+            this.fieldNumber = fieldNumber;
             this.reward = reward;
-            this.landingText = landingText;
+            this.landingText = lm.getString("field"+fieldNumber+"_landing_text");
 
             this.guiStreet = new GUI_Street();
-            this.guiStreet.setTitle(fieldNumber.toString());
-            this.guiStreet.setSubText(name + " | " + reward.toString());
+            this.guiStreet.setTitle(Integer.toString(fieldNumber));
+            this.guiStreet.setSubText(lm.getString("field"+fieldNumber+"_name") + " | " + reward);
+        }
+
+        private void reloadLanguage() {
+            this.landingText = lm.getString("field"+fieldNumber+"_landing_text");
+            this.guiStreet.setTitle(Integer.toString(fieldNumber));
+            this.guiStreet.setSubText(lm.getString("field"+fieldNumber+"_name") + " | " + reward);
+
         }
 
         public void doLandingAction(PlayerManager pm, ActionManager am, int playerID) {
@@ -87,12 +105,10 @@ public class GUIManager {
          * The constructor for creating a new Field.
          *
          * @param fieldNumber   The number of the field.
-         * @param name          The name of the field.
-         * @param landingText   The text to show when the player lands on the field.
          * @param reward        The reward - can be both negative and positive.
          */
-        WerewallField(Integer fieldNumber, String name, String landingText, Integer reward) {
-            super(fieldNumber, name, landingText, reward);
+        WerewallField(Integer fieldNumber, int reward) {
+            super(fieldNumber, reward);
         }
 
         @Override
@@ -117,64 +133,36 @@ public class GUIManager {
             Field field;
             switch (i) {
                 case 1:
-                    field = new Field(i, "Not possible to roll 1",
-                            "How did you even get here..?",
-                            0);
+                case 7:
+                    field = new Field(i, 0);
                     break;
                 case 2:
-                    field = new Field(i, "Tower",
-                            "You have reached the tower and get 250!",
-                            250);
+                case 6:
+                    field = new Field(i, 250);
                     break;
                 case 3:
-                    field = new Field(i, "Crater",
-                            "You fell into the crater and lost 100!",
-                            -100);
+                    field = new Field(i, -100);
                     break;
                 case 4:
-                    field = new Field(i, "Palace gates",
-                            "You have reached the palace gates and get 100!",
-                            100);
+                    field = new Field(i, 100);
                     break;
                 case 5:
-                    field = new Field(i, "Cold Desert",
-                            "You have reached the cold desert, you bought a blanket and lost 20!",
-                            -20);
-                    break;
-                case 6:
-                    field = new Field(i, "Walled city",
-                            "You have reached the safety of the walled city, and get 180!",
-                            250);
-                    break;
-                case 7:
-                    field = new Field(i, "Monastery",
-                            "You have reached the monastery and is provided with a safe place to rest - nothing gained!",
-                            0);
+                    field = new Field(i, -20);
                     break;
                 case 8:
-                    field = new Field(i, "Black cave",
-                            "You have reached the black cave and bought a torch, lost 70!",
-                            -70);
+                    field = new Field(i, -70);
                     break;
                 case 9:
-                    field = new Field(i, "Huts in the mountain",
-                            "You have reached the huts in the mountain and found a coin purse, got 60!",
-                            60);
+                    field = new Field(i, 60);
                     break;
                 case 10:
-                    field = new WerewallField(i, "The Werewall",
-                            "You have reached the Werewall and paid the werewolves for another turn, lost 80 but got another turn!",
-                            -80);
+                    field = new WerewallField(i,-80);
                     break;
                 case 11:
-                    field = new Field(i, "The pit",
-                            "You fell into the deep dark pit and lost 50!",
-                            -50);
+                    field = new Field(i, -50);
                     break;
                 case 12:
-                    field = new Field(i, "Goldmine",
-                            "You have found gold in the mountains and sold it for 650, you are rich!",
-                            650);
+                    field = new Field(i,650);
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + i);
@@ -222,7 +210,17 @@ public class GUIManager {
      *                      the question, else <code>false</code>.
      */
     public boolean askPrompt(String question) {
-        return gui.getUserLeftButtonPressed(question, "Yes", "No");
+        return gui.getUserLeftButtonPressed(question, lm.getString("yes"), lm.getString("no"));
+    }
+
+    /**
+     * Helper function to ask for Language.
+     *
+     * @return              <code>true</code> if the player(s) choose
+     *                      English, for Danish <code>false</code>.
+     */
+    public boolean askLanguage() {
+        return gui.getUserLeftButtonPressed("Choose a Language // Vælg et sprog", "English", "Danish");
     }
 
     /**
@@ -244,7 +242,7 @@ public class GUIManager {
      *                          to roll the dice now.
      */
     public void waitUserRoll(String playerName) {
-        gui.showMessage(playerName + "'s turn. Click to roll the dice!");
+        gui.showMessage(lm.getString("player_turn").replace("{player_name}", playerName));
     }
 
     /**

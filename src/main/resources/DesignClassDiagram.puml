@@ -93,10 +93,25 @@ class Player {
     -guiPlayer : GUI_Player
 
     +Player(gm:GUIManager)
-    +addMoney(p:int) : void
     +setMoney(newPoints:int) : void
-    +getMoney() : int
     +getName() : String
+}
+class AccountManager {
+    -accounts: HashMap<Integer, accountID, balance>
+    +createAccount() : Account
+    +getAccount(accountID: Integer) : Account
+
+}
+class Account {
+    -accountID: int
+    -balance: double
+    +getBalanceString() : String
+    +getMoney() : Double
+    +withdraw(ammount:Double) : Boolean
+    +setBalance(balance:Double) : void
+    +getAccountID() : String
+
+
 }
 class FieldManager{
     -fields: HashMap<Integer, Position, Money>
@@ -119,8 +134,10 @@ MoneyDiceGame --> "1" GUIManager
 MoneyDiceGame --> "1" FieldManager
 DiceManager --> "*" DiceCup
 DiceCup --> "2" Die
-PlayerManager --> "*" Player
+PlayerManager --> "2" Player
 FieldManager --> "12" Field
+MoneyDiceGame --> "1" AccountManager
+AccountManager --> "*" Account
 GUIManager ..> diplomitdtu.matadorgui : <<use>>
 
 @enduml

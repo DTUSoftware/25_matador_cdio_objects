@@ -60,7 +60,7 @@ public class DiceManager {
      * An instance of DiceCup holds two Die instances, which are
      * created on initialization.
      */
-    class DiceCup {
+    public class DiceCup {
         private Die die1;
         private Die die2;
 

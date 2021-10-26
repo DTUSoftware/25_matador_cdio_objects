@@ -1,4 +1,4 @@
-package dk.dtu.cdio2;
+package dk.dtu.cdio2.managers;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

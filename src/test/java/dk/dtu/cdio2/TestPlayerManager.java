@@ -1,17 +1,21 @@
 package dk.dtu.cdio2;
 
+import dk.dtu.cdio2.managers.GUIManager;
+import dk.dtu.cdio2.managers.PlayerManager;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestPlayerManager {
     PlayerManager pm = new PlayerManager();
+    GUIManager gm = Game.getGUIManager();
 
     @Test
     public void testPlayerManager() {
-        PlayerManager.Player player = pm.createPlayer("Test Tester");
+        Player player = pm.createPlayer("Test Tester");
+        gm.createGUIPlayer(player.getID(), player.getName(), player.getMoney());
+
         assertEquals(1, player.getID());
         assertEquals("Test Tester", player.getName());
-
         assertEquals(0.0, player.getMoney());
 
         assertFalse(player.withdrawMoney(-100));

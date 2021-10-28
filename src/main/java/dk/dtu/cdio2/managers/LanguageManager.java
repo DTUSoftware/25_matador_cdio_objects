@@ -1,7 +1,8 @@
 package dk.dtu.cdio2.managers;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import dk.dtu.cdio2.Game;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Class language manager with handles whether you want the language in danish or english
@@ -21,6 +22,9 @@ public class LanguageManager {
         }
         else if (locale.getLanguage().equals(new Locale("da").getLanguage())) {
             locale = new Locale("da", "DK");
+        }
+        else if (locale.getLanguage().equals(new Locale("zh").getLanguage())) {
+            locale = new Locale("zh", "CN");
         }
         else {
             locale = new Locale("en", "US");
@@ -51,6 +55,33 @@ public class LanguageManager {
     public void setLocale(Locale locale) {
         this.locale = locale;
         messages = getMessages();
+    }
+
+    private Locale[] getLocales() {
+        ArrayList<Locale> locales = new ArrayList<>();
+
+        URL url;
+        for (Locale locale : Locale.getAvailableLocales()) {
+//            System.out.println(locale.toString());
+            url = Game.class.getClassLoader().getResource("GameMessages_"+locale.toString()+".properties");
+            if (url != null) {
+                locales.add(locale);
+            }
+        }
+        locales.add(new Locale("en", "US"));
+//        System.out.println(locales.toString());
+
+        return locales.toArray(new Locale[0]);
+    }
+
+    public HashMap<String, Locale> getLocalesMap() {
+        HashMap<String, Locale> locales = new HashMap<>();
+
+        for (Locale locale : getLocales()) {
+            locales.put(locale.getDisplayLanguage(), locale);
+        }
+
+        return locales;
     }
 
     /**

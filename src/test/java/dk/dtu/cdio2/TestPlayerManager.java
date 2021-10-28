@@ -1,5 +1,7 @@
 package dk.dtu.cdio2;
 
+import dk.dtu.cdio2.managers.GUIManager;
+import dk.dtu.cdio2.managers.PlayerManager;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,10 +10,10 @@ public class TestPlayerManager {
 
     @Test
     public void testPlayerManager() {
-        PlayerManager.Player player = pm.createPlayer("Test Tester");
+        Player player = pm.createPlayer("Test Tester");
+
         assertEquals(1, player.getID());
         assertEquals("Test Tester", player.getName());
-
         assertEquals(0.0, player.getMoney());
 
         assertFalse(player.withdrawMoney(-100));
@@ -29,6 +31,12 @@ public class TestPlayerManager {
 
         player.setMoney(100);
         assertEquals(100, player.getMoney());;
+    }
+
+    @Test
+    public void testStartingBalance() {
+        Player player = pm.createPlayer("Test Tester", 3000);
+        assertEquals(3000, player.getMoney());
     }
 
 }

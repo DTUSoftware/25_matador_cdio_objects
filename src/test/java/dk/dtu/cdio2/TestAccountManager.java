@@ -1,5 +1,6 @@
 package dk.dtu.cdio2;
 
+import dk.dtu.cdio2.managers.AccountManager;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,7 +9,7 @@ public class TestAccountManager {
 
     @Test
     public void testAccountManager() {
-        AccountManager.Account account = am.createAccount();
+        Account account = am.createAccount();
         assertEquals(1, account.getAccountID());
 
         assertEquals(0, account.getMoney());

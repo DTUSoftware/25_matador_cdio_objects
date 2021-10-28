@@ -6,7 +6,7 @@
 
     <groupId>dk.dtu</groupId>
     <artifactId>cdio2</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.1</version>
     <name>CDIO Del 2</name>
     <description>Part 2 of CDIO project - Dice throwing game with fields</description>
     <url>https://github.com/DTUSoftware/25_del2</url>

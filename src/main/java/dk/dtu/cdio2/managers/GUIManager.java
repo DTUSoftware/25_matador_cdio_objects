@@ -1,12 +1,15 @@
-package dk.dtu.cdio2;
+package dk.dtu.cdio2.managers;
 
+import dk.dtu.cdio2.Game;
+import dk.dtu.cdio2.fields.*;
 import gui_fields.GUI_Car;
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
-import gui_fields.GUI_Street;
 import gui_main.GUI;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
 
 /**
  * The GUIManager class, for managing the GUI. The
@@ -21,7 +24,6 @@ import java.util.HashMap;
  */
 public class GUIManager {
     private GUI gui;
-    private LanguageManager lm;
     private Field[] fields;
     private HashMap<Integer, GUI_Player> players = new HashMap<>();
 
@@ -29,8 +31,7 @@ public class GUIManager {
      * The GUIManager constructor initializes the GUI instance, and
      * create a new instance of the dtudiplom GUI.
      */
-    public GUIManager(LanguageManager lm) {
-        this.lm = lm;
+    public GUIManager() {
         GUI_Field[] fields = initializeFields();
 
         gui = new GUI(fields, Color.decode("0x"+"3E6990"));
@@ -44,78 +45,6 @@ public class GUIManager {
     public void reloadLanguage() {
         for (Field field : fields) {
             field.reloadLanguage();
-        }
-    }
-
-    /**
-     * A Field object, which can have a name and a reward, including
-     * other things.
-     *
-     * In the future, there is also supposed to be things like Field actions,
-     * to for example control custom stuff for special fields by extending the
-     * class.
-     */
-    public class Field {
-        private GUI_Street  guiStreet;
-        private String      landingText;
-        private int         reward;
-        private int         fieldNumber;
-
-        /**
-         * The constructor for creating a new Field.
-         *
-         * @param fieldNumber   The number of the field.
-         * @param reward        The reward - can be both negative and positive.
-         */
-        Field(int fieldNumber, int reward) {
-            this.fieldNumber = fieldNumber;
-            this.reward = reward;
-            this.landingText = lm.getString("field"+fieldNumber+"_landing_text");
-
-            this.guiStreet = new GUI_Street();
-            this.guiStreet.setTitle(Integer.toString(fieldNumber));
-            this.guiStreet.setSubText(lm.getString("field"+fieldNumber+"_name") + " | " + reward);
-        }
-
-        private void reloadLanguage() {
-            this.landingText = lm.getString("field"+fieldNumber+"_landing_text");
-            this.guiStreet.setTitle(Integer.toString(fieldNumber));
-            this.guiStreet.setSubText(lm.getString("field"+fieldNumber+"_name") + " | " + reward);
-
-        }
-
-        public void doLandingAction(PlayerManager pm, ActionManager am, int playerID) {
-            showMessage(this.landingText);
-            pm.getPlayer(playerID).withdrawMoney(this.reward);
-        }
-
-        public GUI_Street getGUIStreet() {
-            return this.guiStreet;
-        }
-    }
-
-    /**
-     * Special class for the Werewall field, which extends the Field class.
-     *
-     * The Werewall field should have the following rule:
-     * - Get an extra turn.
-     */
-    public class WerewallField extends Field {
-        /**
-         * The constructor for creating a new Field.
-         *
-         * @param fieldNumber   The number of the field.
-         * @param reward        The reward - can be both negative and positive.
-         */
-        WerewallField(Integer fieldNumber, int reward) {
-            super(fieldNumber, reward);
-        }
-
-        @Override
-        public void doLandingAction(PlayerManager pm, ActionManager am, int playerID) {
-            super.doLandingAction(pm, am, playerID);
-
-            am.getAction(1).doAction(playerID);
         }
     }
 
@@ -210,7 +139,7 @@ public class GUIManager {
      *                      the question, else <code>false</code>.
      */
     public boolean askPrompt(String question) {
-        return gui.getUserLeftButtonPressed(question, lm.getString("yes"), lm.getString("no"));
+        return gui.getUserLeftButtonPressed(question, Game.getLanguageManager().getString("yes"), Game.getLanguageManager().getString("no"));
     }
 
     /**
@@ -219,8 +148,18 @@ public class GUIManager {
      * @return              <code>true</code> if the player(s) choose
      *                      English, for Danish <code>false</code>.
      */
-    public boolean askLanguage() {
-        return gui.getUserLeftButtonPressed("Choose a Language // Vælg et sprog", "English", "Danish");
+    public void askLanguage() {
+        HashMap<String, Locale> localeMap = Game.getLanguageManager().getLocalesMap();
+
+        if (localeMap.isEmpty()) {
+            return;
+        }
+        String language = gui.getUserSelection("Choose a language", localeMap.keySet().toArray(new String[0]));
+
+        Locale locale = localeMap.get(language);
+        Game.getLanguageManager().setLocale(locale);
+
+//        return gui.getUserLeftButtonPressed("Choose a Language // Vælg et sprog", "English", "Danish");
     }
 
     /**
@@ -242,7 +181,7 @@ public class GUIManager {
      *                          to roll the dice now.
      */
     public void waitUserRoll(String playerName) {
-        gui.showMessage(lm.getString("player_turn").replace("{player_name}", playerName));
+        gui.showMessage(Game.getLanguageManager().getString("player_turn").replace("{player_name}", playerName));
     }
 
     /**

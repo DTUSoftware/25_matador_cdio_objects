@@ -1,5 +1,6 @@
 package dk.dtu.cdio2;
 
+import dk.dtu.cdio2.managers.DiceManager;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;
@@ -17,8 +18,9 @@ public class TestDiceManager {
      */
     @Test
     public void testDiceCupAndDieCreation() {
-        DiceManager.DiceCup testCup = dm.createDiceCup();
+        DiceCup testCup = dm.createDiceCup();
         assertArrayEquals(new int[] {6, 6}, testCup.getDiceValues());
+        assertEquals(12, testCup.getSum());
     }
 
     /**
@@ -27,7 +29,7 @@ public class TestDiceManager {
      */
     @Test
     public void testDiceCupRaffle() {
-        DiceManager.DiceCup testCup = dm.createDiceCup();
+        DiceCup testCup = dm.createDiceCup();
 
         // We test the dice cup for 1000 throws
         for (int i = 0; i < 1000; i++) {
@@ -37,6 +39,9 @@ public class TestDiceManager {
             // Ensure that the value is between 1 and 6
             assertTrue((1 <= diceValues[0] && diceValues[0] <= 6) &&
                     (1 <= diceValues[1] && diceValues[1] <= 6));
+            // Ensure that the sum is between 2 and 12
+            int diceSum = testCup.getSum();
+            assertTrue(2 <= diceSum && diceSum <= 12);
         }
     }
 
@@ -59,7 +64,7 @@ public class TestDiceManager {
         // We also keep an integer to keep track of how many equal throws are made
         int equalThrows = 0;
 
-        DiceManager.DiceCup testCup = dm.createDiceCup();
+        DiceCup testCup = dm.createDiceCup();
 
         // We test the dice cup for x amount of throws
         int throwAmount = 10000000;

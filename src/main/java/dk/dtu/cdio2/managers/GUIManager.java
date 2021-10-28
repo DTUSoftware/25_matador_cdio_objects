@@ -8,6 +8,8 @@ import gui_fields.GUI_Player;
 import gui_main.GUI;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
 
 /**
  * The GUIManager class, for managing the GUI. The
@@ -146,8 +148,18 @@ public class GUIManager {
      * @return              <code>true</code> if the player(s) choose
      *                      English, for Danish <code>false</code>.
      */
-    public boolean askLanguage() {
-        return gui.getUserLeftButtonPressed("Choose a Language // Vælg et sprog", "English", "Danish");
+    public void askLanguage() {
+        HashMap<String, Locale> localeMap = Game.getLanguageManager().getLocalesMap();
+
+        if (localeMap.isEmpty()) {
+            return;
+        }
+        String language = gui.getUserSelection("Choose a language", localeMap.keySet().toArray(new String[0]));
+
+        Locale locale = localeMap.get(language);
+        Game.getLanguageManager().setLocale(locale);
+
+//        return gui.getUserLeftButtonPressed("Choose a Language // Vælg et sprog", "English", "Danish");
     }
 
     /**

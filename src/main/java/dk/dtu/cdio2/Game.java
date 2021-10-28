@@ -43,12 +43,13 @@ public class Game {
         gm = new GUIManager();
 
         // Choose a language
-        if (gm.askLanguage()) {
-            lm.setLocale("en");
-        }
-        else {
-            lm.setLocale("da");
-        }
+        gm.askLanguage();
+//        if (gm.askLanguage()) {
+//            lm.setLocale("en");
+//        }
+//        else {
+//            lm.setLocale("da");
+//        }
         gm.reloadLanguage();
 
         // Create the players

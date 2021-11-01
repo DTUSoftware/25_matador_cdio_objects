@@ -1,2 +1,2 @@
-# 25_del2
-CDIO Del 2
+# 25_matador_cdio_objects
+CDIO Objects for the CDIO project

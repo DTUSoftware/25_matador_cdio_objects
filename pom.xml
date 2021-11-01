@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dk.dtu</groupId>
-    <artifactId>cdio2</artifactId>
-    <version>1.2.0</version>
-    <name>CDIO Del 2</name>
-    <description>Part 2 of CDIO project - Dice throwing game with fields</description>
-    <url>https://github.com/DTUSoftware/25_del2</url>
+    <artifactId>matador_objects</artifactId>
+    <version>0.0.1</version>
+    <name>CDIO Objects</name>
+    <description>Part of CDIO project - The objects to be used in the project</description>
+    <url>https://github.com/DTUSoftware/25_matador_cdio_objects</url>
 
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://raw.githubusercontent.com/DTUSoftware/25_del2/master/LICENSE</url>
+            <url>https://raw.githubusercontent.com/DTUSoftware/25_matador_cdio_objects/master/LICENSE</url>
         </license>
     </licenses>
 
@@ -76,7 +76,7 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Main-Class>${project.groupId}.${project.artifactId}.Game</Main-Class>
+                                        <Main-Class>${project.groupId}.${project.artifactId}.Main</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
@@ -96,7 +96,7 @@
         <repository>
             <id>github</id>
             <name>GitHub DTU-Software Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/DTUSoftware/25_del2</url>
+            <url>https://maven.pkg.github.com/DTUSoftware/25_matador_cdio_objects</url>
         </repository>
     </distributionManagement>
 </project>

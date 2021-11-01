@@ -1,6 +1,6 @@
-package dk.dtu.cdio2.managers;
+package dk.dtu.matador_objects.managers;
 
-import dk.dtu.cdio2.actions.*;
+import dk.dtu.matador_objects.actions.*;
 
 public class ActionManager {
     private Action[] actions;

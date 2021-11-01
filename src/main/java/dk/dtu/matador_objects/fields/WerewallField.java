@@ -1,6 +1,6 @@
-package dk.dtu.cdio2.fields;
+package dk.dtu.matador_objects.fields;
 
-import dk.dtu.cdio2.Game;
+import dk.dtu.matador_objects.Main;
 
 /**
  * Special class for the Werewall field, which extends the Field class.
@@ -23,6 +23,6 @@ public class WerewallField extends Field {
     public void doLandingAction(int playerID) {
         super.doLandingAction(playerID);
 
-        Game.getActionManager().getAction(1).doAction(playerID);
+        Main.getActionManager().getAction(1).doAction(playerID);
     }
 }

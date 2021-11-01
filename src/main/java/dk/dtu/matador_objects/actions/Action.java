@@ -1,4 +1,4 @@
-package dk.dtu.cdio2.actions;
+package dk.dtu.matador_objects.actions;
 
 public class Action {
     public Action() {}

@@ -1,6 +1,6 @@
-package dk.dtu.cdio2.managers;
+package dk.dtu.matador_objects.managers;
 
-import dk.dtu.cdio2.DiceCup;
+import dk.dtu.matador_objects.DiceCup;
 
 /**
  * The DiceManager is the controller used to create new Die and

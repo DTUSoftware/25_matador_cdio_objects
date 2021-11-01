@@ -1,6 +1,6 @@
-package dk.dtu.cdio2;
+package dk.dtu.matador_objects;
 
-import dk.dtu.cdio2.managers.LanguageManager;
+import dk.dtu.matador_objects.managers.LanguageManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.Locale;

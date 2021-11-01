@@ -1,6 +1,6 @@
-package dk.dtu.cdio2.managers;
+package dk.dtu.matador_objects.managers;
 
-import dk.dtu.cdio2.Game;
+import dk.dtu.matador_objects.Main;
 import java.net.URL;
 import java.util.*;
 
@@ -63,7 +63,7 @@ public class LanguageManager {
         URL url;
         for (Locale locale : Locale.getAvailableLocales()) {
 //            System.out.println(locale.toString());
-            url = Game.class.getClassLoader().getResource("GameMessages_"+locale.toString()+".properties");
+            url = Main.class.getClassLoader().getResource("GameMessages_"+locale.toString()+".properties");
             if (url != null) {
                 locales.add(locale);
             }

@@ -1,4 +1,4 @@
-package dk.dtu.cdio2;
+package dk.dtu.matador_objects;
 
 /**
  * The Account class, typically a Player has an instance of this class.

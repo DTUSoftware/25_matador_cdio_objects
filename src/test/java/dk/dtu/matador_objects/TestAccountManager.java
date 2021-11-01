@@ -1,6 +1,6 @@
-package dk.dtu.cdio2;
+package dk.dtu.matador_objects;
 
-import dk.dtu.cdio2.managers.AccountManager;
+import dk.dtu.matador_objects.managers.AccountManager;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,14 +1,13 @@
-package dk.dtu.cdio2.managers;
+package dk.dtu.matador_objects.managers;
 
-import dk.dtu.cdio2.Game;
-import dk.dtu.cdio2.fields.*;
+import dk.dtu.matador_objects.Main;
+import dk.dtu.matador_objects.fields.*;
 import gui_fields.GUI_Car;
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_main.GUI;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Locale;
 
 /**
@@ -139,7 +138,7 @@ public class GUIManager {
      *                      the question, else <code>false</code>.
      */
     public boolean askPrompt(String question) {
-        return gui.getUserLeftButtonPressed(question, Game.getLanguageManager().getString("yes"), Game.getLanguageManager().getString("no"));
+        return gui.getUserLeftButtonPressed(question, Main.getLanguageManager().getString("yes"), Main.getLanguageManager().getString("no"));
     }
 
     /**
@@ -149,7 +148,7 @@ public class GUIManager {
      *                      English, for Danish <code>false</code>.
      */
     public void askLanguage() {
-        HashMap<String, Locale> localeMap = Game.getLanguageManager().getLocalesMap();
+        HashMap<String, Locale> localeMap = Main.getLanguageManager().getLocalesMap();
 
         if (localeMap.isEmpty()) {
             return;
@@ -157,7 +156,7 @@ public class GUIManager {
         String language = gui.getUserSelection("Choose a language", localeMap.keySet().toArray(new String[0]));
 
         Locale locale = localeMap.get(language);
-        Game.getLanguageManager().setLocale(locale);
+        Main.getLanguageManager().setLocale(locale);
 
 //        return gui.getUserLeftButtonPressed("Choose a Language // Vælg et sprog", "English", "Danish");
     }
@@ -181,7 +180,7 @@ public class GUIManager {
      *                          to roll the dice now.
      */
     public void waitUserRoll(String playerName) {
-        gui.showMessage(Game.getLanguageManager().getString("player_turn").replace("{player_name}", playerName));
+        gui.showMessage(Main.getLanguageManager().getString("player_turn").replace("{player_name}", playerName));
     }
 
     /**

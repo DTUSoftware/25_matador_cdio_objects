@@ -1,4 +1,4 @@
-package dk.dtu.cdio2;
+package dk.dtu.matador_objects;
 
 /**
  * The DiceCup class is a package-private class, such that it

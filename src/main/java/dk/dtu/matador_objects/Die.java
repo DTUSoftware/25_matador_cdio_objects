@@ -1,4 +1,4 @@
-package dk.dtu.cdio2;
+package dk.dtu.matador_objects;
 
 import java.util.Random;
 

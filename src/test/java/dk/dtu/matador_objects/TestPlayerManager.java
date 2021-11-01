@@ -1,7 +1,6 @@
-package dk.dtu.cdio2;
+package dk.dtu.matador_objects;
 
-import dk.dtu.cdio2.managers.GUIManager;
-import dk.dtu.cdio2.managers.PlayerManager;
+import dk.dtu.matador_objects.managers.PlayerManager;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

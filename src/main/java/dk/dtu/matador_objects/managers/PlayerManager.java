@@ -1,6 +1,6 @@
-package dk.dtu.cdio2.managers;
+package dk.dtu.matador_objects.managers;
 
-import dk.dtu.cdio2.Player;
+import dk.dtu.matador_objects.Player;
 import java.util.HashMap;
 
 public class PlayerManager {

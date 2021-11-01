@@ -1,6 +1,6 @@
-package dk.dtu.cdio2.fields;
+package dk.dtu.matador_objects.fields;
 
-import dk.dtu.cdio2.Game;
+import dk.dtu.matador_objects.Main;
 import gui_fields.GUI_Street;
 
 /**
@@ -26,23 +26,23 @@ public class Field {
     public Field(int fieldNumber, int reward) {
         this.fieldNumber = fieldNumber;
         this.reward = reward;
-        this.landingText = Game.getLanguageManager().getString("field"+fieldNumber+"_landing_text");
+        this.landingText = Main.getLanguageManager().getString("field"+fieldNumber+"_landing_text");
 
         this.guiStreet = new GUI_Street();
         this.guiStreet.setTitle(Integer.toString(fieldNumber));
-        this.guiStreet.setSubText(Game.getLanguageManager().getString("field"+fieldNumber+"_name") + " | " + reward);
+        this.guiStreet.setSubText(Main.getLanguageManager().getString("field"+fieldNumber+"_name") + " | " + reward);
     }
 
     public void reloadLanguage() {
-        this.landingText = Game.getLanguageManager().getString("field"+fieldNumber+"_landing_text");
+        this.landingText = Main.getLanguageManager().getString("field"+fieldNumber+"_landing_text");
         this.guiStreet.setTitle(Integer.toString(fieldNumber));
-        this.guiStreet.setSubText(Game.getLanguageManager().getString("field"+fieldNumber+"_name") + " | " + reward);
+        this.guiStreet.setSubText(Main.getLanguageManager().getString("field"+fieldNumber+"_name") + " | " + reward);
 
     }
 
     public void doLandingAction(int playerID) {
-        Game.getGUIManager().showMessage(this.landingText);
-        Game.getPlayerManager().getPlayer(playerID).withdrawMoney(this.reward);
+        Main.getGUIManager().showMessage(this.landingText);
+        Main.getPlayerManager().getPlayer(playerID).withdrawMoney(this.reward);
     }
 
     public GUI_Street getGUIStreet() {
